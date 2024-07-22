@@ -28,3 +28,14 @@ export const getUser = async (userId: string) => {
         console.error(error)
     }
 }
+
+export const registerPatient = async ({ identificationDocument, ...patient }: RegisterUserParams) => {
+
+    try {
+        let fille;
+
+        
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -7,7 +7,7 @@ import { Form, } from "@/components/ui/form"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "@/components/SubmitButton"
 import { useState } from "react"
-import { PatientFormSchema } from "@/validations/PatientForm"
+import { PatientFormSchema } from "@/validations/validations"
 import { createUser } from "@/actions/patient.actions"
 import { useRouter } from "next/navigation"
 
