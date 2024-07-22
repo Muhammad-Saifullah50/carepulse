@@ -7,17 +7,18 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { Input } from "./input"
+import { Input } from "./ui/input"
 import { Control } from "react-hook-form"
-import { FormFieldType } from "../forms/PatientForm"
+import { FormFieldType } from "./forms/PatientForm"
 import Image from "next/image"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { E164Number } from "libphonenumber-js/core"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Select, SelectContent, SelectTrigger, SelectValue } from "./select"
-import { Textarea } from "./textarea"
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select"
+import { Textarea } from "./ui/textarea"
+import { Checkbox } from "./ui/checkbox"
 
 
 interface CustomFormFieldProps {
@@ -137,6 +138,23 @@ const RenderField = ({ field, props }: { field: any, props: CustomFormFieldProps
                             {props.children}
                         </SelectContent>
                     </Select>
+                </FormControl>
+            )
+
+        case FormFieldType.CHECKBOX:
+            return (
+                <FormControl>
+                    <div className="flex items-center gap-4">
+                        <Checkbox
+                            id={props.name}
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                        />
+
+                        <label htmlFor={props.name} className="checkbox_label">
+                            {props.label}
+                        </label>
+                    </div>
                 </FormControl>
             )
         default:

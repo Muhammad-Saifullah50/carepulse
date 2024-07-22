@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Form, FormControl, } from "@/components/ui/form"
-import CustomFormField from "../ui/CustomFormField"
+import CustomFormField from "../CustomFormField"
 import SubmitButton from "@/components/SubmitButton"
 import { useState } from "react"
 import { PatientFormSchema } from "@/validations/PatientForm"
@@ -12,10 +12,11 @@ import { createUser } from "@/actions/patient.actions"
 import { useRouter } from "next/navigation"
 import { FormFieldType } from "./PatientForm"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
-import { Doctors, GenderOptions } from "@/constants"
+import { Doctors, GenderOptions, IdentificationTypes } from "@/constants"
 import { Label } from "../ui/label"
 import { SelectItem } from "../ui/select"
 import Image from "next/image"
+import FileUploader from "../FileUploader"
 
 const RegisterForm = ({ user }: { user: User }) => {
 
@@ -130,7 +131,8 @@ const RegisterForm = ({ user }: { user: User }) => {
                         name="address"
                         placeholder="ABC Street XYZ City"
                         label="Address"
-                    />  <CustomFormField
+                    />
+                    <CustomFormField
                         control={form.control}
                         fieldType={FormFieldType.INPUT}
                         name="occupation"
@@ -222,6 +224,91 @@ const RegisterForm = ({ user }: { user: User }) => {
                     />
                 </div>
 
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    <CustomFormField
+                        control={form.control}
+                        fieldType={FormFieldType.TEXTAREA}
+                        name="familyMedicalHistory"
+                        placeholder="Mother had sugar and father had weak eyesight"
+                        label="Family medical history"
+                    />
+                    <CustomFormField
+                        control={form.control}
+                        fieldType={FormFieldType.TEXTAREA}
+                        name="pastMedicalHistory"
+                        placeholder="Hypertension, Diabetes etc"
+                        label="Past medical history"
+                    />
+                </div>
+
+                <section className=" space-y-6">
+                    <div className="mb-9 space-y-1">
+                        <h2 className="text-dark-700 sub-header">Identification and Verification</h2>
+                    </div>
+
+                </section>
+
+                <CustomFormField
+                    control={form.control}
+                    fieldType={FormFieldType.SELECT}
+                    name="identificationType"
+                    label="Identification type"
+                    placeholder="Select Identification type"
+                >
+                    {IdentificationTypes.map((type) => (
+                        <SelectItem
+                            key={type}
+                            value={type}
+                        >
+                            {type}
+                        </SelectItem>
+                    ))}
+                </CustomFormField>
+
+                <CustomFormField
+                    control={form.control}
+                    fieldType={FormFieldType.INPUT}
+                    name="identificationNumber"
+                    placeholder="123456789"
+                    label="Identification number"
+                />
+
+                <CustomFormField
+                    control={form.control}
+                    fieldType={FormFieldType.SKELETON}
+                    name="identificationDocument"
+                    label="Scanned copy of identification document"
+                    renderSkeleton={(field) => (
+                        <FormControl>
+                            <FileUploader files={field.value} onChange={field.onChange} />
+                        </FormControl>
+                    )}
+                />
+
+                <section className=" space-y-6">
+                    <div className="mb-9 space-y-1">
+                        <h2 className="text-dark-700 sub-header">Privacy Consent</h2>
+                    </div>
+                </section>
+
+                <CustomFormField
+                    fieldType={FormFieldType.CHECKBOX}
+                    control={form.control}
+                    name="treatmentConsent"
+                    label="I agree to the treatment consent form"
+                />
+                <CustomFormField
+                    fieldType={FormFieldType.CHECKBOX}
+                    control={form.control}
+                    name="disclosureConsent"
+                    label="I agree to the disclosure consent form"
+                />
+                <CustomFormField
+                    fieldType={FormFieldType.CHECKBOX}
+                    control={form.control}
+                    name="privacyConsent"
+                    label="I agree to the privacy consent form"
+                />
                 <SubmitButton
                     isLoading={isLoading}
                 >
