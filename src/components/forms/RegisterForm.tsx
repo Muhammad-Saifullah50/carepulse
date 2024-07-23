@@ -8,7 +8,7 @@ import CustomFormField from "../CustomFormField"
 import SubmitButton from "@/components/SubmitButton"
 import { useState } from "react"
 import { PatientFormSchema } from "@/validations/validations"
-import { createUser } from "@/actions/patient.actions"
+import { createUser, registerPatient } from "@/actions/patient.actions"
 import { useRouter } from "next/navigation"
 import { FormFieldType } from "./PatientForm"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
@@ -27,9 +27,9 @@ const RegisterForm = ({ user }: { user: User }) => {
         resolver: zodResolver(PatientFormSchema),
         defaultValues: {
             ...PatientFormDefaultValues,
-            name: "",
-            email: "",
-            phone: ""
+            name: user.name || "",
+            email: user.email || "",
+            phone: user.phone || ""
         },
     })
 
@@ -44,18 +44,41 @@ const RegisterForm = ({ user }: { user: User }) => {
             });
 
             formData = new FormData();
-            formData.append("blobfile", blobFile);
+            formData.append("blobFile", blobFile);
             formData.append('fileName', values.identificationDocument[0].name);
         }
         try {
 
             const patientData = {
-                ...values,
                 userId: user.$id,
+                name: values.name,
+                email: values.email,
+                phone: values.phone,
+                gender: values.gender,
                 birthDate: new Date(values.birthDate),
-                identificationDocument: formData, 
-            };
+                address: values.address,
+                occupation: values.occupation,
+                emergencyContactName: values.emergencyContactName,
+                emergencyContactNumber: values.emergencyContactNumber,
+                primaryPhysician: values.primaryPhysician,
+                insuranceProvider: values.insuranceProvider,
+                insurancePolicyNumber: values.insurancePolicyNumber,
+                allergies: values.allergies,
+                currentMedication: values.currentMedication,
+                familyMedicalHistory: values.familyMedicalHistory,
+                pastMedicalHistory: values.pastMedicalHistory,
+                identificationType: values.identificationType,
+                identificationNumber: values.identificationNumber,
+                identificationDocument: values.identificationDocument
+                    ? formData
+                    : undefined,
+                privacyConsent: values.privacyConsent,
+                treatmentConsent: values.treatmentConsent,
+                disclosureConsent: values.disclosureConsent,
 
+
+            };
+            // @ts-ignore
             const patient = await registerPatient(patientData);
 
             if (patient) router.push(`/patients/${user.$id}/new-appointment`);
@@ -156,7 +179,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                         fieldType={FormFieldType.INPUT}
                         name="occupation"
                         placeholder="Software Engineer"
-                        label="Full Name"
+                        label="Occupation"
                     />
                 </div>
                 <div className="flex flex-col gap-6 xl:flex-row">

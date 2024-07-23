@@ -21,7 +21,7 @@ export const PatientFormSchema = z.object({
     .string()
     .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
   birthDate: z.coerce.date(),
-  gender: z.enum(["Male", "Female", "Other"]),
+  gender: z.enum(["male", "female"]),
   address: z
     .string()
     .min(5, "Address must be at least 5 characters")
@@ -55,13 +55,15 @@ export const PatientFormSchema = z.object({
   pastMedicalHistory: z.string().optional(),
   identificationType: z.string().optional(),
   identificationNumber: z.string().optional(),
-  identificationDocument: z.custom<File[]>().optional(),
-  treatmentConsent: z
-    .boolean()
-    .default(false)
-    .refine((value) => value === true, {
-      message: "You must consent to treatment in order to proceed",
-    }),
+  identificationDocument: z.custom<File[]>()
+    .refine(files => files && files.length > 0, {
+      message: "Identification document is required",
+    }), treatmentConsent: z
+      .boolean()
+      .default(false)
+      .refine((value) => value === true, {
+        message: "You must consent to treatment in order to proceed",
+      }),
   disclosureConsent: z
     .boolean()
     .default(false)

@@ -10,20 +10,9 @@ import { useState } from "react"
 import { UserFormSchema } from "@/validations/validations"
 import { createUser } from "@/actions/patient.actions"
 import { useRouter } from "next/navigation"
+import { FormFieldType } from "./PatientForm"
 
-export enum FormFieldType {
-    INPUT = 'input',
-    TEXTAREA = 'textarea',
-    PHONE_INPUT = 'phoneInput',
-    CHECKBOX = 'checkbox',
-    DATE_PICKER = 'datePicker',
-    SELECT = 'select',
-    SKELETON = 'skeleton'
-}
-
-
-
-const PatientForm = () => {
+const AppointmentForm = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter();
@@ -93,4 +82,4 @@ const PatientForm = () => {
 
 }
 
-export default PatientForm
+export default AppointmentForm
