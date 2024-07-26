@@ -210,7 +210,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                     control={form.control}
                     fieldType={FormFieldType.SELECT}
                     name="primaryPhysician"
-                    label="Emergency contact number"
+                    label="Primary Physician"
                     placeholder="Select a physician"
                 >
                     {Doctors.map((doctor) => (
