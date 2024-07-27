@@ -1,14 +1,18 @@
+import PasskeyModal from "@/components/PasskeyModal";
 import PatientForm from "@/components/forms/PatientForm";
 import Image from "next/image";
 import Link from "next/link";
 
 
-export default function Home() {
+export default function Home({ searchParams }: SearchParamProps) {
+  const isAdmin = searchParams?.admin === "true";
+
   return (
     <div className="flex h-screen max-h-screen  ">
 
-      {/* otp */}
-      <section className=" remove-scrollbar container">
+      {isAdmin && <PasskeyModal />}
+
+      <section className="remove-scrollbar container ">
         <div className="sub-container max-w-[860px] flex-1 flex-col py-10 ">
           <Image
             src={"/assets/icons/logo-full.svg"}
