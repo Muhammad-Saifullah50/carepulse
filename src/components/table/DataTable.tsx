@@ -18,13 +18,14 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "../ui/button"
+import Image from "next/image"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
- const DataTable = <TData, TValue>({
+const DataTable = <TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) => {
@@ -37,20 +38,20 @@ interface DataTableProps<TData, TValue> {
   })
 
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
+    <div className="data-table">
+      <Table className="shad-table">
+        <TableHeader className="bg-dark-200 ">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="shad-table-row-header">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 )
               })}
@@ -63,6 +64,7 @@ interface DataTableProps<TData, TValue> {
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="shad-table-row"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -81,14 +83,20 @@ interface DataTableProps<TData, TValue> {
         </TableBody>
       </Table>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="table-actions">
         <Button
           variant="outline"
           size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
+          className="shad-gray-btn"
         >
-          Previous
+          <Image
+            src={"/assets/icons/arrow.svg"}
+            width={24}
+            height={24}
+            alt="arrow"
+          />
         </Button>
         <Button
           variant="outline"
@@ -96,11 +104,17 @@ interface DataTableProps<TData, TValue> {
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          <Image
+            src={"/assets/icons/arrow.svg"}
+            width={24}
+            height={24}
+            alt="arrow"
+            className="rotate-180"
+          />
         </Button>
       </div>
     </div>
-  
+
   )
 }
 

@@ -6,9 +6,9 @@ import { formatDateTime } from "@/lib/utils"
 import { Doctors } from "@/constants"
 import Image from "next/image"
 import AppointmentModal from "../AppointmentModal"
+import { Appointment } from "@/types/appwrite.types"
 
-
-export const columns: ColumnDef<any, any>[] = [
+export const columns: ColumnDef<Appointment>[] = [
     {
         header: "ID",
         cell: ({ row }) => <p className="text-14-medium">{row.index + 1}</p>
@@ -61,11 +61,23 @@ export const columns: ColumnDef<any, any>[] = [
     {
         id: "actions",
         header: () => <div className="pl-4">Actions</div>,
-        cell: ({ row }) => {
+        cell: ({ row: { original: data } }) => {
             return (
                 <div className="flex gap-1">
-                    <AppointmentModal type='schedule'/>
-                    <AppointmentModal type='cancel'/>
+                    <AppointmentModal
+                        type='schedule'
+                        patientId={data.patient.$id}
+                        userId={data.userId}
+                        appointment={data}
+
+                    />
+                    {data.status !== "cancelled" && <AppointmentModal
+                        type='cancel'
+                        patientId={data.patient.$id}
+                        userId={data.userId}
+                        appointment={data}
+
+                    />}
                 </div>
             )
 

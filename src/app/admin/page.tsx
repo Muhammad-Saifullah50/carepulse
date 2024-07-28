@@ -1,6 +1,6 @@
 import { getRecentAppointmentsList } from "@/actions/appointment.actions";
 import StatCard from "@/components/StatCard"
-import { Payment, columns } from "@/components/table/Columns";
+import { columns } from "@/components/table/Columns";
 import DataTable from "@/components/table/DataTable";
 import Image from "next/image"
 import Link from "next/link"
@@ -9,7 +9,7 @@ const AdminPage = async () => {
   const appointments = await getRecentAppointmentsList();  
 
   return (
-    <div className="mx-auto flex flex-col max-w-7xl space-y-14">
+    <div className="mx-auto flex flex-col max-w-7xl space-y-14 ">
       <header className="admin-header">
         <Link href={"/"} className="cursor-pointer">
           <Image src={"/assets/icons/logo-full.svg"}
@@ -19,7 +19,7 @@ const AdminPage = async () => {
         <p className="text-16-semibold"> Admin Dashboard</p>
       </header>
 
-      <main className="admin-main">
+      <main className="admin-main ">
         <section className="w-full space-y-4">
           <h1 className="header">
             Welcome 👋

@@ -3,6 +3,7 @@
 import { APPOINTMENT_COLLECTION_ID, DATABASE_ID, databases } from "@/lib/appwrite.config";
 import { parseStringify } from "@/lib/utils";
 import { Appointment } from "@/types/appwrite.types";
+import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
 
 export const createAppointment = async (appointment: CreateAppointmentParams) => {
@@ -75,3 +76,26 @@ export const getRecentAppointmentsList = async () => {
     }
 
 };
+
+export const updateAppointment = async ({ appointmentId, userId, appointment, type }: UpdateAppointmentParams) => {
+
+    try {
+        const updatedAppointment = await databases.updateDocument(
+            DATABASE_ID!,
+            APPOINTMENT_COLLECTION_ID!,
+            appointmentId,
+            appointment
+        );
+
+        if (!updatedAppointment) {
+            throw new Error('Failed to update appointment');
+        }
+
+        //sms notification
+
+        revalidatePath('/admin');
+        return parseStringify(updatedAppointment);
+    } catch (error) {
+        console.error(error)
+    }
+}
