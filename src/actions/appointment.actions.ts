@@ -1,7 +1,7 @@
 'use server'
 
-import { APPOINTMENT_COLLECTION_ID, DATABASE_ID, databases } from "@/lib/appwrite.config";
-import { parseStringify } from "@/lib/utils";
+import { APPOINTMENT_COLLECTION_ID, DATABASE_ID, databases, messaging } from "@/lib/appwrite.config";
+import { formatDateTime, parseStringify } from "@/lib/utils";
 import { Appointment } from "@/types/appwrite.types";
 import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
@@ -90,9 +90,6 @@ export const updateAppointment = async ({ appointmentId, userId, appointment, ty
         if (!updatedAppointment) {
             throw new Error('Failed to update appointment');
         }
-
-        //sms notification
-
         revalidatePath('/admin');
         return parseStringify(updatedAppointment);
     } catch (error) {

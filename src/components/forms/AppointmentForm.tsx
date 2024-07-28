@@ -22,7 +22,7 @@ interface AppointmentFormsProps {
     userId: string
     patientId: string
     appointment?: Appointment
-    setOpen: (open: boolean) => void
+    setOpen?: (open: boolean) => void
 }
 const AppointmentForm = ({ type, userId, patientId, appointment, setOpen }: AppointmentFormsProps) => {
 
@@ -127,7 +127,7 @@ const AppointmentForm = ({ type, userId, patientId, appointment, setOpen }: Appo
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
                 {type === 'create' && (<section className="mb-12 space-y-4">
                     <h1 className="header">New Appointment</h1>
-                    <p className="text-dark-700">Request a new appointment in 10 sec onds</p>
+                    <p className="text-dark-700">Request a new appointment</p>
                 </section>
                 )}
 

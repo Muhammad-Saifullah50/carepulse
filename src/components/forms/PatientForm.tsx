@@ -10,6 +10,7 @@ import { useState } from "react"
 import { UserFormSchema } from "@/validations/validations"
 import { createUser } from "@/actions/patient.actions"
 import { useRouter } from "next/navigation"
+import { useToast } from "../ui/use-toast"
 
 export enum FormFieldType {
     INPUT = 'input',
@@ -27,6 +28,8 @@ const PatientForm = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter();
+    const { toast } = useToast()
+
 
     const form = useForm<z.infer<typeof UserFormSchema>>({
         resolver: zodResolver(UserFormSchema),
@@ -44,8 +47,14 @@ const PatientForm = () => {
 
             const user = await createUser(userData);
             if (user) router.push(`/patients/${user.$id}/register`);
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            toast({
+                title: "Invalid Credentials",
+                description: error?.message,
+                variant: "destructive",
+            });
+            setIsLoading(false);
+            form.reset();
         }
     }
 
@@ -54,7 +63,7 @@ const PatientForm = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
                 <section className="mb-12 space-y-4">
                     <h1 className="header">Hi there 👋 </h1>
-                    <p className="text-dark-700">Schedule your first appointment</p>
+                    <p className="text-dark-700">Login to schedule your appointment</p>
                 </section>
 
                 <CustomFormField

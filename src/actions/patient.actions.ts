@@ -1,12 +1,12 @@
 'use server'
 import { BUCKET_ID, DATABASE_ID, ENDPOINT, PATIENT_COLLECTION_ID, PROJECT_ID, databases, storage, users } from "@/lib/appwrite.config"
 import { parseStringify } from "@/lib/utils"
+import { redirect } from "next/navigation"
 import { ID, Query } from "node-appwrite"
 import { InputFile } from "node-appwrite/file"
 
 export const createUser = async (user: CreateUserParams) => {
     try {
-        console.log('a')
         const newUser = await users.create(ID.unique(), user.email, user.phone, undefined, user.name);
 
 
@@ -14,13 +14,14 @@ export const createUser = async (user: CreateUserParams) => {
     } catch (error: any) {
         console.log(error)
         if (error && error?.code === 409) {
-            console.log(error)
             const documents = await users.list([
                 Query.equal('email', [user.email])
             ]);
 
+            if (!documents?.users[0]) throw new Error('Invalid credentials');
             return documents?.users[0]
         }
+        console.error(error)
     }
 }
 

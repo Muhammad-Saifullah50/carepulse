@@ -1,13 +1,19 @@
-import { getUser } from '@/actions/patient.actions'
+import { getPatient, getUser } from '@/actions/patient.actions'
 import RegisterForm from '@/components/forms/RegisterForm'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import * as Sentry from "@sentry/nextjs";
+import { redirect } from 'next/navigation'
 
 const PatientRegisterPage = async ({ params: { userId } }: SearchParamProps) => {
 
   const user = await getUser(userId)
+  const patient = await getPatient(userId)
 
+  Sentry.metrics.set("user_view_register", user!?.name);
+
+  if (patient) redirect(`/patients/${userId}/new-appointment`)
   return (
     <div className="flex h-screen max-h-screen">
 
@@ -24,7 +30,7 @@ const PatientRegisterPage = async ({ params: { userId } }: SearchParamProps) => 
           <RegisterForm user={user as any} />
 
           <p className="copyright py-12 justify-items-end text-dark-600 xl:text-left">  © 2024 CarePulse</p>
-        
+
         </div>
       </section>
 
