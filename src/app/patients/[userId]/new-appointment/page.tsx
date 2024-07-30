@@ -13,23 +13,20 @@ export default async function NewAppointmentPage({ params: { userId } }: SearchP
     <div className="flex h-screen max-h-screen  ">
       <section className=" remove-scrollbar container">
         <div className="sub-container max-w-[860px] flex-1 flex-col py-10 ">
-          <Image
-            src={"/assets/icons/logo-full.svg"}
-            height={1000}
-            width={1000}
-            alt="patient"
-            className="mb-12 h-10 w-fit"
-          />
+          <div className="flex justify-between w-fit gap-3 mt-3 mb-7">
+            <Image src='/assets/icons/logo-icon.svg' height={1000} width={1000} alt="logo" className="h-10 w-fit" />
+            <h1 className="header">Caring</h1>
+          </div>
 
-          <AppointmentForm 
-          type="create"
-          userId={userId}
-          patientId={patient?.$id}
+          <AppointmentForm
+            type="create"
+            userId={userId}
+            patientId={patient?.$id}
 
 
           />
 
-            <p className="copyright mt-10 py-12">  © 2024 CarePulse</p>
+          <p className="copyright mt-10 py-12">  © 2024 CarePulse</p>
         </div>
       </section>
 

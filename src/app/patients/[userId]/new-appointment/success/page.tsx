@@ -24,13 +24,10 @@ const SuccessPage = async ({ params: { userId }, searchParams }: SearchParamProp
         <div className='flex h-screen max-h-screen px-[5%]'>
             <div className='success-img'>
                 <Link href="/">
-                    <Image
-                        src={"/assets/icons/logo-full.svg"}
-                        height={1000}
-                        width={1000}
-                        alt="logo"
-                        className=" h-10 w-fit"
-                    />
+                    <div className="flex justify-between w-fit gap-3 mt-3 mb-7">
+                        <Image src='/assets/icons/logo-icon.svg' height={1000} width={1000} alt="logo" className="h-10 w-fit" />
+                        <h1 className="header">Caring</h1>
+                    </div>
                 </Link>
 
                 <section className='flex flex-col items-center'>
